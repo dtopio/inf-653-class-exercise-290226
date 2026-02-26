@@ -1,83 +1,72 @@
-<section>
-	<h2>Item Details</h2>
 
-	{{#if report}}
-		<p><strong>ID:</strong> {{report.id}}</p>
-		<p><strong>Name:</strong> {{report.name}}</p>
-		<p><strong>Description:</strong> {{report.description}}</p>
-		<p><strong>Location Lost:</strong> {{report.location}}</p>
-		<p><strong>Date:</strong> {{report.date}}</p>
-		<p><strong>Contact Email:</strong> {{report.contact}}</p>
-		<p><strong>Status:</strong> {{report.status}}</p>
-
-		{{#if report.imagePath}}
-			<div>
-				<h3>Uploaded Image</h3>
-				<img src="{{report.imagePath}}" alt="{{report.name}}" style="max-width: 100%; height: auto;" />
-			</div>
-		{{/if}}
-
-		<hr />
-		<h3>Update Status</h3>
-		<form action="/items/{{report.id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Lost" />
-			<button type="submit">Mark Lost</button>
-		</form>
-
-		<form action="/items/{{report.id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Found" />
-			<button type="submit">Mark Found</button>
-		</form>
-
-		<form action="/items/{{report.id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Closed" />
-			<button type="submit">Mark Closed</button>
-		</form>
-
-		<hr />
-		<form action="/items/{{report.id}}/delete" method="POST" onsubmit="return confirm('Delete this report?');">
-			<button type="submit">Delete Report</button>
-		</form>
-	{{else}}
-		<p><strong>ID:</strong> {{id}}</p>
-		<p><strong>Name:</strong> {{name}}</p>
-		<p><strong>Description:</strong> {{description}}</p>
-		<p><strong>Location Lost:</strong> {{location}}</p>
-		<p><strong>Date:</strong> {{date}}</p>
-		<p><strong>Contact Email:</strong> {{contact}}</p>
-		<p><strong>Status:</strong> {{status}}</p>
-
-		{{#if imagePath}}
-			<div>
-				<h3>Uploaded Image</h3>
-				<img src="{{imagePath}}" alt="{{name}}" style="max-width: 100%; height: auto;" />
-			</div>
-		{{/if}}
-
-		<hr />
-		<h3>Update Status</h3>
-		<form action="/items/{{id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Lost" />
-			<button type="submit">Mark Lost</button>
-		</form>
-
-		<form action="/items/{{id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Found" />
-			<button type="submit">Mark Found</button>
-		</form>
-
-		<form action="/items/{{id}}/status" method="POST" style="display: inline-block; margin-right: 8px;">
-			<input type="hidden" name="status" value="Closed" />
-			<button type="submit">Mark Closed</button>
-		</form>
-
-		<hr />
-		<form action="/items/{{id}}/delete" method="POST" onsubmit="return confirm('Delete this report?');">
-			<button type="submit">Delete Report</button>
-		</form>
-	{{/if}}
-
-	<p style="margin-top: 16px;">
-		<a href="/dashboard">Back to Dashboard</a>
-	</p>
+<section class="detail-card">
+  <h2>Item Details</h2>
+  {{#if report}}
+    <div class="detail-fields">
+      <p><strong>ID:</strong> {{report.id}}</p>
+      <p><strong>Name:</strong> {{report.name}}</p>
+      <p><strong>Description:</strong> {{report.description}}</p>
+      <p><strong>Location Lost:</strong> {{report.location}}</p>
+      <p><strong>Date:</strong> {{report.date}}</p>
+      <p><strong>Contact Email:</strong> {{report.contact}}</p>
+      <p><strong>Status:</strong> <span class="status-badge status-{{report.status}}">{{report.status}}</span></p>
+    </div>
+    {{#if report.imagePath}}
+      <div>
+        <img src="{{report.imagePath}}" alt="{{report.name}}" class="detail-img" />
+      </div>
+    {{/if}}
+    <div class="actions">
+      <form action="/items/{{report.id}}/status" method="POST">
+        <input type="hidden" name="status" value="Lost" />
+        <button type="submit" class="btn btn-secondary">Mark Lost</button>
+      </form>
+      <form action="/items/{{report.id}}/status" method="POST">
+        <input type="hidden" name="status" value="Found" />
+        <button type="submit" class="btn btn-primary">Mark Found</button>
+      </form>
+      <form action="/items/{{report.id}}/status" method="POST">
+        <input type="hidden" name="status" value="Closed" />
+        <button type="submit" class="btn btn-secondary">Mark Closed</button>
+      </form>
+      <form action="/items/{{report.id}}/delete" method="POST" onsubmit="return confirm('Delete this report?');">
+        <button type="submit" class="btn btn-danger">Delete Report</button>
+      </form>
+    </div>
+  {{else}}
+    <div class="detail-fields">
+      <p><strong>ID:</strong> {{id}}</p>
+      <p><strong>Name:</strong> {{name}}</p>
+      <p><strong>Description:</strong> {{description}}</p>
+      <p><strong>Location Lost:</strong> {{location}}</p>
+      <p><strong>Date:</strong> {{date}}</p>
+      <p><strong>Contact Email:</strong> {{contact}}</p>
+      <p><strong>Status:</strong> <span class="status-badge status-{{status}}">{{status}}</span></p>
+    </div>
+    {{#if imagePath}}
+      <div>
+        <img src="{{imagePath}}" alt="{{name}}" class="detail-img" />
+      </div>
+    {{/if}}
+    <div class="actions">
+      <form action="/items/{{id}}/status" method="POST">
+        <input type="hidden" name="status" value="Lost" />
+        <button type="submit" class="btn btn-secondary">Mark Lost</button>
+      </form>
+      <form action="/items/{{id}}/status" method="POST">
+        <input type="hidden" name="status" value="Found" />
+        <button type="submit" class="btn btn-primary">Mark Found</button>
+      </form>
+      <form action="/items/{{id}}/status" method="POST">
+        <input type="hidden" name="status" value="Closed" />
+        <button type="submit" class="btn btn-secondary">Mark Closed</button>
+      </form>
+      <form action="/items/{{id}}/delete" method="POST" onsubmit="return confirm('Delete this report?');">
+        <button type="submit" class="btn btn-danger">Delete Report</button>
+      </form>
+    </div>
+  {{/if}}
+  <div style="margin-top: 1.5rem;">
+    <a href="/dashboard" class="btn btn-secondary">Back to Dashboard</a>
+  </div>
 </section>
