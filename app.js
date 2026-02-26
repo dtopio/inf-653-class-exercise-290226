@@ -77,26 +77,72 @@ function ensureUploadsDir() {
   return dir;
 }
 
-// Routes
-app.get("/", (req, res) => res.redirect("/report"));
 
-// TODO: branch → feature/report-form
+// GET /report – render the report submission form
 app.get("/report", (req, res) => {
-  // render the report submission form
+  res.render("report", { title: "Report a Lost Item" });
 });
 
+// POST /report – parse multipart upload, validate, save, redirect
 app.post("/report", (req, res) => {
-  // handle form submission (multipart/form-data)
+  const form = new multiparty.Form();
+
+  form.parse(req, (err, fields, files) => {
+    if (err) return res.redirect("/report");
+
+    const name        = fields.name?.[0]?.trim();
+    const description = fields.description?.[0]?.trim();
+    const location    = fields.location?.[0]?.trim();
+    const date        = fields.date?.[0]?.trim();
+    const contact     = fields.contact?.[0]?.trim();
+    const imageFile   = files.image?.[0];
+
+    if (!name || !description || !location || !date || !contact || !imageFile) {
+      return res.redirect("/report");
+    }
+
+    const uploadsDir = ensureUploadsDir();
+    const ext      = path.extname(imageFile.originalFilename) || ".jpg";
+    const filename = `${Date.now()}${ext}`;
+    const destPath = path.join(uploadsDir, filename);
+
+    // Move temp file to public/uploads
+    fs.rename(imageFile.path, destPath, (renameErr) => {
+      if (renameErr && renameErr.code === "EXDEV") {
+        fs.copyFile(imageFile.path, destPath, (copyErr) => {
+          if (copyErr) return res.redirect("/report");
+          fs.unlink(imageFile.path, () => {});
+          saveReport();
+        });
+      } else if (renameErr) {
+        return res.redirect("/report");
+      } else {
+        saveReport();
+      }
+    });
+
+    function saveReport() {
+      const report = {
+        id: String(Date.now()),
+        name,
+        description,
+        location,
+        date,
+        contact,
+        imagePath: `/uploads/${filename}`,
+        status: "Lost",
+      };
+      global.reports.push(report);
+      res.redirect("/dashboard");
+    }
+  });
 });
 
-// TODO: branch → feature/dashboard
 app.get("/dashboard", (req, res) => {
-  app.get("/dashboard", (req, res) => {
   res.render("dashboard", {
     title: "Dashboard",
     reports: global.reports,
   });
-});
 });
 
 // TODO: branch → feature/item-detail

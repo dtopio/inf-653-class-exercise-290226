@@ -1,0 +1,38 @@
+<div class="form-card">
+  <h2>Report a Lost Item</h2>
+
+  <form action="/report" method="POST" enctype="multipart/form-data">
+
+    <div class="form-group">
+      <label for="name">Item Name</label>
+      <input type="text" id="name" name="name" placeholder="e.g. Blue Wallet" required />
+    </div>
+
+    <div class="form-group">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="Describe the item..." required></textarea>
+    </div>
+
+    <div class="form-group">
+      <label for="location">Location Lost</label>
+      <input type="text" id="location" name="location" placeholder="e.g. Library Hall B" required />
+    </div>
+
+    <div class="form-group">
+      <label for="date">Date Lost</label>
+      <input type="date" id="date" name="date" required />
+    </div>
+
+    <div class="form-group">
+      <label for="contact">Contact Email</label>
+      <input type="email" id="contact" name="contact" placeholder="e.g. student@univ.edu" required />
+    </div>
+
+    <div class="form-group">
+      <label for="image">Item Image</label>
+      <input type="file" id="image" name="image" accept="image/*" required />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit Report</button>
+  </form>
+</div>
