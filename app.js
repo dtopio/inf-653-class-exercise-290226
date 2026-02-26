@@ -59,10 +59,9 @@ app.post("/report", (req, res) => {
 app.get("/dashboard", (req, res) => {
   res.render("dashboard", {
     title: "Dashboard",
-    reports: global.reports
+    reports: global.reports,
   });
 });
-
 // TODO: branch → feature/item-detail
 app.get("/items/:id", (req, res) => {
   // render the detail view for a single item
