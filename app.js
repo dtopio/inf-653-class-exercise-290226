@@ -57,7 +57,10 @@ app.post("/report", (req, res) => {
 
 // TODO: branch → feature/dashboard
 app.get("/dashboard", (req, res) => {
-  // render the dashboard listing all reports
+  res.render("dashboard", {
+    title: "Dashboard",
+    reports: global.reports
+  });
 });
 
 // TODO: branch → feature/item-detail
