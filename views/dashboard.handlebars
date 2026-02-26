@@ -1,30 +1,28 @@
 <h2>Dashboard</h2>
 
-<table border="1" cellpadding="6">
+{{#if reports.length}}
+<table>
   <thead>
     <tr>
       <th>ID</th>
       <th>Name</th>
       <th>Date</th>
       <th>Status</th>
-      <th>Link</th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
-    {{#if reports.length}}
-      {{#each reports}}
-        <tr>
-          <td>{{id}}</td>
-          <td>{{name}}</td>
-          <td>{{date}}</td>
-          <td>{{status}}</td>
-          <td><a href="/items/{{id}}">View Details</a></td>
-        </tr>
-      {{/each}}
-    {{else}}
-      <tr>
-        <td colspan="5">No reports yet.</td>
-      </tr>
-    {{/if}}
+    {{#each reports}}
+    <tr>
+      <td>{{this.id}}</td>
+      <td>{{this.name}}</td>
+      <td>{{this.date}}</td>
+      <td>{{this.status}}</td>
+      <td><a href="/items/{{this.id}}">View Details</a></td>
+    </tr>
+    {{/each}}
   </tbody>
 </table>
+{{else}}
+<p>No reports yet. <a href="/report">Submit one.</a></p>
+{{/if}}
